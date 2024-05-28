@@ -15,14 +15,10 @@ def go_code_runner(code):
     if response.status_code == 200:
         formated_code = response.json()["Body"]
     else:
-        print("Error to format code:", response.status_code)
+        return "Error to format code: " + response.status_code, ""
 
     if formated_code == "":
         return "", ""
-
-    print("===== Code =====")
-    print(formated_code)
-    print("=========================")
 
     run_backend = "https://go.dev/_/compile?backend="
 
@@ -37,7 +33,7 @@ def go_code_runner(code):
     if response.status_code == 200:
         output = response.json()
     else:
-        print("Error to run code:", response.status_code)
+        return "Error to run code: " + response.status_code, ""
 
     if output["Errors"] != "":
         return output["Errors"], ""
