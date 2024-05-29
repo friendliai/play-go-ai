@@ -11,8 +11,6 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 
 const BodyGoProgramGoProgramPost = {
-  // Define the schema for your request body here, including required and optional fields
-  // Example:
   question: "",
 };
 
@@ -43,9 +41,6 @@ function MyComponent() {
       if (!response.ok) {
         throw new Error(`API request failed with status ${response.status}`);
       }
-
-      // // Handle successful response (e.g., display success message, update state)
-      // console.log("Request successful:", await response.json()); // Replace with your logic
 
       setResponse(await response.json());
     } catch (error: any) {

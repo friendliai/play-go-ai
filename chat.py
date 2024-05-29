@@ -6,8 +6,12 @@ import os
 
 load_dotenv()
 friendli_token = os.getenv("FLP_API_KEY")
+endpoint = "https://inference-dev.friendli.ai/v1"
 
-client = OpenAI(base_url="https://inference.friendli.ai/v1",
+
+model = "mixtral-8x7b-instruct-v0-1"
+
+client = OpenAI(base_url=endpoint,
                 api_key=friendli_token)
 
 tools = [
@@ -35,7 +39,7 @@ tools = [
 
 def chat_with_tool(messages):
     chat = client.chat.completions.create(
-        model="mixtral-8x7b-instruct-v0-1",
+        model=model,
         messages=messages,
         tools=tools,
         max_tokens=1000,
@@ -74,7 +78,7 @@ def chat_with_tool(messages):
 
 def chat(messages):
     chat = client.chat.completions.create(
-        model="mixtral-8x7b-instruct-v0-1",
+        model=model,
         messages=messages,
         max_tokens=1000,
     )

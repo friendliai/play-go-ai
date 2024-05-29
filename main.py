@@ -43,8 +43,14 @@ def go_program(question:  Annotated[str, Form()], max_retries: Annotated[int, Fo
         formated_code = runner_return[1]
         retry_count += 1
 
+        print("debug")
+
     if run_result == "":
-        return JSONResponse(content={"error": "Error to run code", "retry_count": retry_count})
+        return JSONResponse(content={"error": "Error to run code",
+                                     "message": "error",
+                                     "run_result": "error",
+                                     "retry_count": retry_count,
+                                     "formated_code": formated_code})
 
     messages.append(
         {
