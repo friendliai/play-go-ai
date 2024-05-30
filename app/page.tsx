@@ -2,6 +2,7 @@
 
 import { useCompletion } from "ai/react";
 import axios from "axios";
+import { ReloadIcon } from "@radix-ui/react-icons";
 import { useState } from "react";
 import TextareaAutosize from "react-textarea-autosize";
 import { toast } from "sonner";
@@ -15,6 +16,7 @@ export default function Home() {
   const [text, setText] = useState("");
   const [result, setResult] = useState("");
   const [error, setError] = useState("");
+  const [codeLoading, setCodeLoading] = useState(false);
 
   const {
     completion,
@@ -84,20 +86,28 @@ export default function Home() {
             required
           />
 
-          <Button aria-label="Submit" type="submit">
-            {isLoading ? "loading" : "Generate"}
+          <Button
+            aria-label="Submit"
+            type="submit"
+            className="min-w-28"
+            disabled={isLoading}
+          >
+            {isLoading && <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />}
+            Generate
           </Button>
 
           <Button
-            onClick={(e) => {
+            disabled={codeLoading}
+            className="min-w-20"
+            onClick={async (e) => {
               e.preventDefault();
+              setCodeLoading(true);
 
               // setText("");
               setResult("");
               setError("");
 
-              axios.post("/api/code", { code: text }).then((res) => {
-                console.log(res.data);
+              await axios.post("/api/code", { code: text }).then((res) => {
                 if (res.data.code) {
                   setText(res.data.code);
                 }
@@ -110,9 +120,14 @@ export default function Home() {
                   setResult(res.data.result);
                 }
               });
+
+              setCodeLoading(false);
             }}
           >
-            {isLoading ? "loading" : "Run"}
+            {codeLoading && (
+              <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
+            )}
+            Run
           </Button>
         </div>
       </form>

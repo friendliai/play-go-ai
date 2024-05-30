@@ -57,12 +57,10 @@ export async function goCodeRunner({
 
     const response = await axiosInstance.post(fmtUrl, fmtData);
 
-    console.log("Response: ", response.data);
     const formattedCode = response.data.Body;
 
     if (formattedCode === "") {
       result.error = response.data.Error;
-      console.log("debug 2");
       result.failed = true;
     } else {
       const compileUrl = "/compile";
