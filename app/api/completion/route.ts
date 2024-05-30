@@ -25,14 +25,16 @@ export async function POST(req: Request) {
     }
   }
 
-  const { text, prompt } = await req.json();
+  const { text, error, prompt } = await req.json();
   if (!prompt) return new Response("Prompt is required", { status: 400 });
 
   const result = await streamText({
     model: friendliai("meta-llama-3-8b-instruct"),
     system:
       "You are a text editor. You will be given a prompt and a text to edit, which may be empty or incomplete. Edit the text to match the prompt, and only respond with the full edited version of the text - do not include any other information, context, or explanation. If you add on to the text, respond with the full version, not just the new portion. Do not include the prompt or otherwise preface your response. Do not enclose the response in quotes.",
-    prompt: `Prompt: ${"Write a Go program that " + prompt}\nText: ${text}`,
+    prompt: `Prompt: ${"Write a Go program that " + prompt} ${
+      error ? `\nError: ${error}` : ""
+    }\nText: ${text}`,
   });
 
   return new StreamingTextResponse(result.toAIStream());

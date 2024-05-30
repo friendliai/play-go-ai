@@ -3,8 +3,13 @@
 import { useCompletion } from "ai/react";
 import axios from "axios";
 import { useState } from "react";
-// import TextareaAutosize from "react-textarea-autosize";
-// import { toast } from "sonner";
+import TextareaAutosize from "react-textarea-autosize";
+import { toast } from "sonner";
+import { TextareaVariants } from "@/components/ui/textarea";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
 
 export default function Home() {
   const [text, setText] = useState("");
@@ -19,34 +24,25 @@ export default function Home() {
     handleSubmit,
     setInput,
   } = useCompletion({
-    body: { text },
+    body: { text, error },
     onFinish: (prompt, completion) => setText(completion.trim()),
-    // onError: (error) => toast.error(error.message),
+    onError: (error) => toast.error(error.message),
   });
 
   return (
-    <div>
-      {error && (
-        <div role="alert">
-          <strong className="font-bold">Error: </strong>
-          <span className="block sm:inline">{error}</span>
-        </div>
-      )}
-
-      {result && (
-        <div role="alert">
-          <strong className="font-bold">Result: </strong>
-          <span className="block sm:inline">{result}</span>
-        </div>
-      )}
-
+    <div className="space-y-4 p-10">
       <form
+        className="space-y-4"
         onSubmit={(e) => {
           handleSubmit(e);
           setInput("");
+
+          setResult("");
+          setError("");
         }}
       >
-        <textarea
+        <TextareaAutosize
+          className={cn(TextareaVariants(), "max-h-96 resize-none")}
           value={isLoading && completion.length > 0 ? completion.trim() : text}
           onChange={(e) => {
             if (!isLoading) setText(e.target.value);
@@ -62,8 +58,20 @@ export default function Home() {
           }}
         />
 
-        <div>
-          <input
+        <Card className="px-2 py-2 w-full whitespace-pre-wrap min-h-10">
+          {error || result ? (
+            error ? (
+              <div className="text-red-500">{error}</div>
+            ) : (
+              <div>{result}</div>
+            )
+          ) : (
+            <div className="text-gray-500">Result will appear here...</div>
+          )}
+        </Card>
+
+        <div className="flex items-center space-x-2">
+          <Input
             placeholder="Make the text more unique..."
             onChange={handleInputChange}
             value={input}
@@ -71,13 +79,18 @@ export default function Home() {
             required
           />
 
-          <button aria-label="Submit" type="submit">
+          <Button aria-label="Submit" type="submit">
             {isLoading ? "loading" : "Generate"}
-          </button>
+          </Button>
 
-          <button
+          <Button
             onClick={(e) => {
               e.preventDefault();
+
+              // setText("");
+              setResult("");
+              setError("");
+
               axios.post("/api/code", { code: text }).then((res) => {
                 console.log(res.data);
                 if (res.data.code) {
@@ -95,7 +108,7 @@ export default function Home() {
             }}
           >
             {isLoading ? "loading" : "Run"}
-          </button>
+          </Button>
         </div>
       </form>
     </div>
