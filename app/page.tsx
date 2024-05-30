@@ -30,7 +30,7 @@ export default function Home() {
   });
 
   return (
-    <div className="container mt-20 flex flex-col gap-20">
+    <div className="container flex flex-col gap-20">
       <div className="flex flex-col gap-2 items-center">
         <h1 className="text-2xl font-bold">AI golang playground</h1>
         <p className="text-gray-500">power by friendliAI</p>
