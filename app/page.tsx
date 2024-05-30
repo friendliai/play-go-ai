@@ -4,13 +4,11 @@ import { useCompletion } from "ai/react";
 import axios from "axios";
 import { ReloadIcon } from "@radix-ui/react-icons";
 import { useState } from "react";
-import TextareaAutosize from "react-textarea-autosize";
 import { toast } from "sonner";
-import { TextareaVariants } from "@/components/ui/textarea";
+import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { cn } from "@/lib/utils";
 
 export default function Home() {
   const [text, setText] = useState("");
@@ -48,15 +46,14 @@ export default function Home() {
           setError("");
         }}
       >
-        <TextareaAutosize
-          className={cn(TextareaVariants(), "max-h-96 resize-none")}
+        <Textarea
+          className={"h-96"}
           value={isLoading && completion.length > 0 ? completion.trim() : text}
           onChange={(e) => {
             if (!isLoading) setText(e.target.value);
           }}
           placeholder="It was a dark and stormy night..."
           aria-label="Text"
-          // cacheMeasurements
           onKeyDown={(e) => {
             if ((e.ctrlKey || e.metaKey) && e.key === "Enter") {
               e.preventDefault();
