@@ -1,17 +1,12 @@
-## how to use - backend
+# play.go.ai
 
-1. .env file에 FLP_API_KEY를 넣어주세요, 이때 FLP_API_KEY는 <https://suite.friendli.ai/> 에서 발급받을 수 있습니다.
-2. 파이썬 종속성 (openai, requests, fastapi)을 설치해주세요.
-3. `fastapi dev main.py`를 실행해주세요.
-4. `http://localhost:8000/docs`로 접속하시면 API를 사용할 수 있습니다.
+play.go.ai is an AI-powered Go code editor built with [Next.js](https://nextjs.org) and [Vercel AI SDK](https://sdk.vercel.ai/) using [FriendliAI](https://friendli.ai).
 
-## how to use - frontend
-1. cd frontend
-2. pnpm install
-3. pnpm dev
-4. `http://localhost:3000`
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fminpeter%2Fplay.go.ai&env=FRIENDLI_API_KEY&envDescription=Token%20issuance%20from%20friendli%20suite%20for%20AI%20text%20generation&envLink=https%3A%2F%2Fsuite.friendli.ai%2Fuser-settings%2Ftokens&project-name=play-go-ai&repository-name=play.go.ai)
 
+## Developing
 
-| ![image](https://github.com/minpeter/play.go.ai/assets/62207008/6c34e31f-5e02-4bb7-b540-98a7bc1c00d7) | ![image](https://github.com/minpeter/play.go.ai/assets/62207008/fc1260a2-e19e-48cc-90b1-026405f506b0) |
-| --- | --- |
-| math/rand rand.IntN example | hello world |
+- Clone the repository
+- Create a `.env.local` file with `FRIENDLI_API_KEY=your-api-key` where `your-api-key` is your friendli suite API key from [suite.friendli.ai](https://suite.friendli.ai/user-settings/tokens).
+- Run `pnpm install` to install dependencies.
+- Run `pnpm dev` to start the development server.
