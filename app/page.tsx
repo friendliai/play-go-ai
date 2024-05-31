@@ -8,7 +8,7 @@ import { toast } from "sonner";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import friendliGopher from "./friendli-gopher.png";
+import friendliGopher from "@/public/friendli-gopher.png";
 import Image from "next/image";
 
 export default function Home() {
