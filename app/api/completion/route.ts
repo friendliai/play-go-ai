@@ -27,7 +27,7 @@ export async function POST(req: Request) {
   }
 
   const friendliai = createOpenAI({
-    apiKey: process.env.FRIENDLIAI_API_KEY,
+    apiKey: process.env.FRIENDLI_API_KEY,
     baseURL: "https://inference.friendli.ai/v1",
   });
 
