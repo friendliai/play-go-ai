@@ -1,5 +1,6 @@
 import { StreamingTextResponse, streamText } from "ai";
-import { friendliai } from "@friendliai/ai-provider";
+// import { friendliai } from "@friendliai/ai-provider";
+import { createOpenAI } from "@ai-sdk/openai";
 import { Ratelimit } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis";
 
@@ -24,6 +25,11 @@ export async function POST(req: Request) {
       return new Response("Rate limit exceeded", { status: 429 });
     }
   }
+
+  const friendliai = createOpenAI({
+    apiKey: process.env.FRIENDLIAI_API_KEY,
+    baseURL: "https://inference.friendli.ai/v1",
+  });
 
   const { text, error, prompt } = await req.json();
   if (!prompt) return new Response("Prompt is required", { status: 400 });
