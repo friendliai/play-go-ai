@@ -2,13 +2,14 @@
 
 import { useCompletion } from "ai/react";
 import axios from "axios";
-import { ReloadIcon } from "@radix-ui/react-icons";
+import { ReloadIcon, RocketIcon } from "@radix-ui/react-icons";
 import { useState } from "react";
 import { toast } from "sonner";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
+import friendliGopher from "./friendli-gopher.png";
+import Image from "next/image";
 
 export default function Home() {
   const [text, setText] = useState("");
@@ -30,10 +31,35 @@ export default function Home() {
   });
 
   return (
-    <div className="container flex flex-col gap-20">
+    <div className="container flex flex-col gap-10">
       <div className="flex flex-col gap-2 items-center">
+        <Image
+          src={friendliGopher}
+          alt="FriendliAI Gopher"
+          width={100}
+          height={100}
+        />
         <h1 className="text-2xl font-bold">AI golang playground</h1>
-        <p className="text-gray-500">power by friendliAI</p>
+        <p className="text-gray-500">
+          power by{" "}
+          <a
+            href="https://friendli.ai"
+            target="_blank"
+            rel="noreferrer"
+            className="text-[#1D4CB1] underline"
+          >
+            FriendliAI
+          </a>{" "}
+          &{" "}
+          <a
+            href="https://sdk.vercel.ai"
+            target="_blank"
+            rel="noreferrer"
+            className="underline"
+          >
+            ▲ AI SDK
+          </a>
+        </p>
       </div>
 
       <form
@@ -62,7 +88,7 @@ export default function Home() {
           }}
         />
 
-        <Card className="px-2 py-2 w-full whitespace-pre-wrap min-h-10">
+        <div className="px-3 py-4 w-full whitespace-pre-wrap min-h-10 bg-neutral-100 rounded-md">
           {error || result ? (
             error ? (
               <div className="text-red-500">{error}</div>
@@ -70,23 +96,25 @@ export default function Home() {
               <div>{result}</div>
             )
           ) : (
-            <div className="text-gray-500">Result will appear here...</div>
+            <div className="text-neutral-300">
+              Execution Result will appear here...
+            </div>
           )}
-        </Card>
+        </div>
+
+        <Input
+          placeholder="Enter your prompt here... ✨"
+          onChange={handleInputChange}
+          value={input}
+          aria-label="Prompt"
+          required
+        />
 
         <div className="flex items-center space-x-2">
-          <Input
-            placeholder="Make the text more unique..."
-            onChange={handleInputChange}
-            value={input}
-            aria-label="Prompt"
-            required
-          />
-
           <Button
             aria-label="Submit"
             type="submit"
-            className="min-w-28"
+            className="w-full"
             disabled={isLoading}
           >
             {isLoading && <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />}
@@ -95,12 +123,11 @@ export default function Home() {
 
           <Button
             disabled={codeLoading}
-            className="min-w-20"
+            className="w-full"
             onClick={async (e) => {
               e.preventDefault();
               setCodeLoading(true);
 
-              // setText("");
               setResult("");
               setError("");
 
@@ -121,10 +148,12 @@ export default function Home() {
               setCodeLoading(false);
             }}
           >
-            {codeLoading && (
+            {codeLoading ? (
               <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
+            ) : (
+              <RocketIcon className="mr-2 h-4 w-4" />
             )}
-            Run
+            Execution
           </Button>
         </div>
       </form>
