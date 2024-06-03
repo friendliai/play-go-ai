@@ -31,7 +31,7 @@ export default function Home() {
   });
 
   return (
-    <div className="container flex flex-col gap-10">
+    <div className="flex flex-col gap-10">
       <div className="flex flex-col gap-2 items-center">
         <Image
           src={friendliGopher}
@@ -73,12 +73,16 @@ export default function Home() {
         }}
       >
         <Textarea
-          className={"h-96"}
+          className="h-44"
           value={isLoading && completion.length > 0 ? completion.trim() : text}
           onChange={(e) => {
             if (!isLoading) setText(e.target.value);
           }}
-          placeholder="It was a dark and stormy night..."
+          placeholder={`package main
+
+func main() {
+  // The generated code will appear here...
+}`}
           aria-label="Text"
           onKeyDown={(e) => {
             if ((e.ctrlKey || e.metaKey) && e.key === "Enter") {
@@ -88,7 +92,7 @@ export default function Home() {
           }}
         />
 
-        <div className="px-3 py-4 w-full whitespace-pre-wrap min-h-10 bg-neutral-100 rounded-md">
+        <div className="px-3 py-4 w-full whitespace-pre-wrap h-32 bg-neutral-100 rounded-md max-h-32 overflow-y-scroll">
           {error || result ? (
             error ? (
               <div className="text-red-500">{error}</div>
