@@ -1,5 +1,4 @@
-import { StreamingTextResponse, streamText } from "ai";
-// import { friendliai } from "@friendliai/ai-provider";
+import { streamText } from "ai";
 import { createOpenAI } from "@ai-sdk/openai";
 import { Ratelimit } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis";
@@ -43,5 +42,5 @@ export async function POST(req: Request) {
     }\nText: ${text}`,
   });
 
-  return new StreamingTextResponse(result.toAIStream());
+  return result.toAIStreamResponse();
 }
