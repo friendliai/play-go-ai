@@ -1,6 +1,7 @@
 "use client";
 
 import { useCompletion } from "ai/react";
+import axios from "axios";
 import { ReloadIcon, RocketIcon } from "@radix-ui/react-icons";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -116,14 +117,14 @@ func main() {
               e.preventDefault();
               setCodeLoading(true);
 
-              const response = await fetch("/api/code", {
-                method: "POST",
-                body: JSON.stringify({ code }),
-              }).then((res) => res.json());
+              const response = await axios.post("/api/code", { code });
 
-              setResult(response.result);
-              setError(response.error);
-              setCode(response.code);
+              setError(response.data.error);
+              setResult(response.data.result);
+
+              if (!response.data.error) {
+                setCode(response.data.code);
+              }
 
               setCodeLoading(false);
             }}
