@@ -19,6 +19,7 @@ export async function POST(req: Request) {
     body: code,
     imports: true,
   });
+
   if (fmtResponse.Error) {
     result.error = fmtResponse.Error;
     return sendResponse(result);
@@ -31,19 +32,14 @@ export async function POST(req: Request) {
     withVet: "true",
     version: "2",
   });
+
   if (runResponse.Errors) {
     result.error = runResponse.Errors;
     return sendResponse(result);
   }
 
   runResponse.Events?.forEach((event: Events) => {
-    if (event.Kind === "stdout") {
-      result.result += event.Message;
-    } else if (event.Kind === "stderr") {
-      result.result += event.Message;
-    } else {
-      result.result += `${event.Kind}: ${event.Message}`;
-    }
+    result.result += event.Message;
   });
 
   return sendResponse(result);
