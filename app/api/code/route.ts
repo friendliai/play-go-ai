@@ -1,23 +1,19 @@
 import axios from "axios";
 
-export interface runnerResponse {
+export interface Response {
   code: string;
   error: string;
   result: string;
 }
 
-interface GoCodeRunnerResponse {
-  Body: string;
-  Errors: string;
-  Events: {
-    Kind: string;
-    Message: string;
-  };
+interface Events {
+  Kind: string;
+  Message: string;
 }
 
 export async function POST(req: Request) {
   const { code } = await req.json();
-  const result: runnerResponse = { code: "", error: "", result: "" };
+  const result: Response = { code: "", error: "", result: "" };
 
   const fmtResponse = await sendRequest("/fmt", {
     body: code,
@@ -40,7 +36,7 @@ export async function POST(req: Request) {
     return sendResponse(result);
   }
 
-  runResponse.Events?.forEach((event: GoCodeRunnerResponse["Events"]) => {
+  runResponse.Events?.forEach((event: Events) => {
     if (event.Kind === "stdout") {
       result.result += event.Message;
     } else if (event.Kind === "stderr") {
@@ -66,7 +62,7 @@ async function sendRequest(url: string, data: any) {
   return response.data;
 }
 
-async function sendResponse(response: any) {
+async function sendResponse(response: Response) {
   return new Response(JSON.stringify(response), {
     headers: {
       "Content-Type": "application/json",
