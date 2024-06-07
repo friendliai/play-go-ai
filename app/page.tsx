@@ -1,7 +1,6 @@
 "use client";
 
 import { useCompletion } from "ai/react";
-import axios from "axios";
 import { ReloadIcon, RocketIcon } from "@radix-ui/react-icons";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -12,23 +11,20 @@ import friendliGopher from "@/public/friendli-gopher.png";
 import Image from "next/image";
 
 export default function Home() {
-  const [text, setText] = useState("");
-  const [result, setResult] = useState("");
-  const [error, setError] = useState("");
   const [codeLoading, setCodeLoading] = useState(false);
 
-  const {
-    completion,
-    input,
-    isLoading,
-    handleInputChange,
-    handleSubmit,
-    setInput,
-  } = useCompletion({
-    body: { text, error },
-    onFinish: (prompt, completion) => setText(completion.trim()),
-    onError: (error) => toast.error(error.message),
-  });
+  const [result, setResult] = useState("");
+  const [error, setError] = useState("");
+  const [code, setCode] = useState("");
+
+  const { isLoading, input, setInput, handleInputChange, handleSubmit } =
+    useCompletion({
+      body: { result, error, code },
+      onFinish: (prompt, completion) => {
+        setCode(completion.trim());
+      },
+      onError: (error) => toast.error(error.message),
+    });
 
   return (
     <div className="flex flex-col gap-10">
@@ -74,22 +70,16 @@ export default function Home() {
       >
         <Textarea
           className="h-44"
-          value={isLoading && completion.length > 0 ? completion.trim() : text}
+          value={isLoading ? "" : code}
           onChange={(e) => {
-            if (!isLoading) setText(e.target.value);
+            if (!isLoading) setCode(e.target.value);
           }}
+          readOnly={isLoading || codeLoading}
           placeholder={`package main
 
 func main() {
   // The generated code will appear here...
 }`}
-          aria-label="Text"
-          onKeyDown={(e) => {
-            if ((e.ctrlKey || e.metaKey) && e.key === "Enter") {
-              e.preventDefault();
-              e.currentTarget.form?.requestSubmit();
-            }
-          }}
         />
 
         <div className="px-3 py-4 w-full whitespace-pre-wrap h-32 bg-neutral-100 rounded-md max-h-32 overflow-y-scroll">
@@ -110,17 +100,11 @@ func main() {
           placeholder="Enter your prompt here... ✨"
           onChange={handleInputChange}
           value={input}
-          aria-label="Prompt"
           required
         />
 
         <div className="flex items-center space-x-2">
-          <Button
-            aria-label="Submit"
-            type="submit"
-            className="w-full"
-            disabled={isLoading}
-          >
+          <Button type="submit" className="w-full" disabled={isLoading}>
             {isLoading && <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />}
             Generate
           </Button>
@@ -132,22 +116,14 @@ func main() {
               e.preventDefault();
               setCodeLoading(true);
 
-              setResult("");
-              setError("");
+              const response = await fetch("/api/code", {
+                method: "POST",
+                body: JSON.stringify({ code }),
+              }).then((res) => res.json());
 
-              await axios.post("/api/code", { code: text }).then((res) => {
-                if (res.data.code) {
-                  setText(res.data.code);
-                }
-
-                if (res.data.error) {
-                  setError(res.data.error);
-                }
-
-                if (res.data.result) {
-                  setResult(res.data.result);
-                }
-              });
+              setResult(response.result);
+              setError(response.error);
+              setCode(response.code);
 
               setCodeLoading(false);
             }}
