@@ -54,7 +54,6 @@ export async function POST(req: Request) {
 
 async function sendRequest(url: string, data: any) {
   const response = await instance.post(url, data);
-
   return response.data;
 }
 
