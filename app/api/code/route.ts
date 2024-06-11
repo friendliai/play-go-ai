@@ -11,6 +11,13 @@ interface Events {
   Message: string;
 }
 
+const instance = axios.create({
+  baseURL: "https://go.dev/_",
+  headers: {
+    "Content-Type": "application/x-www-form-urlencoded",
+  },
+});
+
 export async function POST(req: Request) {
   const { code } = await req.json();
   const result: Response = { code: "", error: "", result: "" };
@@ -46,15 +53,7 @@ export async function POST(req: Request) {
 }
 
 async function sendRequest(url: string, data: any) {
-  const instance = axios.create({
-    baseURL: "https://go.dev/_",
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
-    },
-  });
-
   const response = await instance.post(url, data);
-
   return response.data;
 }
 

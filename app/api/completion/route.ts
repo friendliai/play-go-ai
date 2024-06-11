@@ -25,9 +25,8 @@ export async function POST(req: Request) {
     const ip = req.headers.get("x-real-ip") ?? "local";
     const rl = await ratelimit.limit(ip);
 
-    if (!rl.success) {
+    if (!rl.success)
       return new Response("Rate limit exceeded", { status: 429 });
-    }
   }
 
   const { prompt, result, error, code } = await req.json();

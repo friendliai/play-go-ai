@@ -18,14 +18,20 @@ export default function Home() {
   const [error, setError] = useState("");
   const [code, setCode] = useState("");
 
-  const { isLoading, input, setInput, handleInputChange, handleSubmit } =
-    useCompletion({
-      body: { result, error, code },
-      onFinish: (prompt, completion) => {
-        setCode(completion.trim());
-      },
-      onError: (error) => toast.error(error.message),
-    });
+  const {
+    completion,
+    isLoading,
+    input,
+    setInput,
+    handleInputChange,
+    handleSubmit,
+  } = useCompletion({
+    body: { result, error, code },
+    onFinish: (prompt, completion) => {
+      setCode(completion.trim());
+    },
+    onError: (error) => toast.error(error.message),
+  });
 
   return (
     <div className="flex flex-col gap-10">
@@ -38,7 +44,7 @@ export default function Home() {
         />
         <h1 className="text-2xl font-bold">AI golang playground</h1>
         <p className="text-gray-500">
-          power by{" "}
+          powered by{" "}
           <a
             href="https://friendli.ai"
             target="_blank"
@@ -71,7 +77,7 @@ export default function Home() {
       >
         <Textarea
           className="h-44"
-          value={isLoading ? "" : code}
+          value={isLoading ? completion : code}
           onChange={(e) => {
             if (!isLoading) setCode(e.target.value);
           }}
