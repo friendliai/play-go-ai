@@ -7,12 +7,14 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "play.go.ai",
+  /* typo: power -> powered */
   description: "AI golang playground power by FriendliAI",
   metadataBase: new URL("https://play-go-ai.vercel.app"),
   twitter: {
     card: "summary_large_image",
   },
   icons: {
+    /* Not official logo */
     icon: "/favicon.ico",
   },
 };

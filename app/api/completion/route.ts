@@ -3,6 +3,7 @@ import { createOpenAI } from "@ai-sdk/openai";
 import { Ratelimit } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis";
 
+/* Where can I access these secrets? Cannot review without it */
 const ratelimit =
   process.env.KV_REST_API_URL && process.env.KV_REST_API_TOKEN
     ? new Ratelimit({

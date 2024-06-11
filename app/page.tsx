@@ -1,5 +1,6 @@
 "use client";
 
+/* okay to use deprecated method? */
 import { useCompletion } from "ai/react";
 import axios from "axios";
 import { ReloadIcon, RocketIcon } from "@radix-ui/react-icons";
