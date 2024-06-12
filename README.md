@@ -1,3 +1,5 @@
+<img src="public/friendli-gopher.png" alt="friendli gopher" align="right" width="120" />
+
 # play.go.ai
 
 play.go.ai is an AI-powered Go code editor built with [Next.js](https://nextjs.org) and [Vercel AI SDK](https://sdk.vercel.ai/) using [FriendliAI](https://friendli.ai).
