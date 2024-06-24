@@ -98,7 +98,7 @@ func main() {
             )
           ) : (
             <div className="text-neutral-300">
-              Execution Result will appear here...
+              Execution result will appear here...
             </div>
           )}
         </div>
@@ -140,7 +140,7 @@ func main() {
             ) : (
               <RocketIcon className="mr-2 h-4 w-4" />
             )}
-            Execution
+            Execute
           </Button>
         </div>
       </form>
