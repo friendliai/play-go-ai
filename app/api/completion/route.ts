@@ -34,11 +34,12 @@ export async function POST(req: Request) {
 
   const response = await streamText({
     model: friendliai("meta-llama-3-8b-instruct"),
-    system:
-      "You are a golang code editor. You will be given a prompt and a text to edit, which may be empty or incomplete. Edit the golang code to match the prompt, and only respond with the full edited version of the golang code - do not include any other information, context, or explanation. If you add on to the text, respond with the full version, not just the new portion. Do not include the prompt or otherwise preface your response. Do not enclose the response in quotes.",
     prompt: `Prompt: ${prompt}\nCode: ${code}\n${
       error ? `Error: ${error}\n` : ""
     }${result ? `Result: ${result}\n` : ""}`,
+    system: `Use only Go code.
+    Do not include the prompt or otherwise preface your response.
+    Do not enclose the response in quotes.`,
   });
 
   return response.toAIStreamResponse();
