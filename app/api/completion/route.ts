@@ -33,7 +33,7 @@ export async function POST(req: Request) {
   if (!prompt) return new Response("Prompt is required", { status: 400 });
 
   const response = await streamText({
-    model: friendliai("meta-llama-3-8b-instruct"),
+    model: friendliai("meta-llama-3.1-8b-instruct"),
     prompt: `Prompt: ${prompt}\nCode: ${code}\n${
       error ? `Error: ${error}\n` : ""
     }${result ? `Result: ${result}\n` : ""}`,
