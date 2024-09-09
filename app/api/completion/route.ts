@@ -16,7 +16,7 @@ const ratelimit =
     : false;
 
 const friendliai = createOpenAI({
-  apiKey: process.env.FRIENDLI_API_KEY,
+  apiKey: process.env.FRIENDLI_TOKEN,
   baseURL: "https://inference.friendli.ai/v1",
 });
 
