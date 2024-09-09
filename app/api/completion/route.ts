@@ -42,5 +42,5 @@ export async function POST(req: Request) {
     Do not enclose the response in quotes.`,
   });
 
-  return response.toAIStreamResponse();
+  return response.toDataStreamResponse();
 }
