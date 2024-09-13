@@ -1,5 +1,5 @@
 import { streamText } from "ai";
-import { createOpenAI } from "@ai-sdk/openai";
+import { friendli } from "@friendliai/ai-provider";
 import { Ratelimit } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis";
 
@@ -15,11 +15,6 @@ const ratelimit =
       })
     : false;
 
-const friendliai = createOpenAI({
-  apiKey: process.env.FRIENDLI_TOKEN,
-  baseURL: "https://inference.friendli.ai/v1",
-});
-
 export async function POST(req: Request) {
   if (ratelimit) {
     const ip = req.headers.get("x-real-ip") ?? "local";
@@ -33,7 +28,7 @@ export async function POST(req: Request) {
   if (!prompt) return new Response("Prompt is required", { status: 400 });
 
   const response = await streamText({
-    model: friendliai("meta-llama-3.1-8b-instruct"),
+    model: friendli("meta-llama-3.1-8b-instruct"),
     prompt: `Prompt: ${prompt}\nCode: ${code}\n${
       error ? `Error: ${error}\n` : ""
     }${result ? `Result: ${result}\n` : ""}`,
