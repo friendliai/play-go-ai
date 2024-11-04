@@ -27,7 +27,7 @@ export default function Home() {
     handleSubmit,
   } = useCompletion({
     body: { result, error, code },
-    onFinish: (prompt, completion) => {
+    onFinish: (_, completion) => {
       setCode(completion.trim());
     },
     onError: (error) => toast.error(error.message),
