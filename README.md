@@ -9,6 +9,6 @@ play.go.ai is an AI-powered Go code editor built with [Next.js](https://nextjs.o
 ## Developing
 
 - Clone the repository
-- Create a `.env.local` file with `FRIENDLI_TOKEN=your-api-key` where `your-api-key` is your friendli suite API key from [suite.friendli.ai](https://suite.friendli.ai/default-team/settings/tokens).
+- Create a `.env.local` file with `FRIENDLI_TOKEN=your-api-key` where `your-api-key` is your friendli suite API key from [friendli.ai/suite](https://friendli.ai/suite/setting/tokens).
 - Run `pnpm install` to install dependencies.
 - Run `pnpm dev` to start the development server.
